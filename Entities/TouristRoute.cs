@@ -40,5 +40,13 @@ public class TouristRoute
     [MaxLength]
     public string Notes { get; set; }
 
+    public double? Rating { get; set; }
+
+    public TripDays? TripDays { get; set; }
+
+    public TripType? TripType { get; set; }
+
+    public DepartureCity? DepartureCity { get; set; }
+
     public ICollection<TouristRoutePicture> TouristRoutePictures { get; set; }
 }
