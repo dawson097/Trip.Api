@@ -17,12 +17,26 @@ public class TouristRouteController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetTouristRoutesAsync()
     {
-        return Ok(await _routeRepository.GetAllRoutesAsync());
+        var routesFromRepo = await _routeRepository.GetAllRoutesAsync();
+
+        if (routesFromRepo == null || routesFromRepo.Count() < 0)
+        {
+            return NotFound("Cannot found any tourist route");
+        }
+
+        return Ok(routesFromRepo);
     }
 
     [HttpGet("{routeId:guid}")]
     public async Task<IActionResult> GetTouristRouteAsync(Guid routeId)
     {
-        return Ok(await _routeRepository.GetRouteByRouteIdAsync(routeId));
+        var routeFromRepo = await _routeRepository.GetRouteByRouteIdAsync(routeId);
+
+        if (routeFromRepo == null)
+        {
+            return NotFound($"Cannot found current tourist route, route id is {routeId}");
+        }
+
+        return Ok(routeFromRepo);
     }
 }
