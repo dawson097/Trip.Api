@@ -17,12 +17,20 @@ public class TouristRoutesController : ControllerBase
     [HttpGet]
     public IActionResult GetTouristRoutes()
     {
-        return Ok(_routeRepository.GetAllRoutes());
+        var routesFromRepo = _routeRepository.GetAllRoutes();
+
+        if (routesFromRepo == null || !routesFromRepo.Any()) return NotFound("Cannot found any routes!");
+
+        return Ok(routesFromRepo);
     }
 
     [HttpGet("{routeId:guid}")]
     public IActionResult GetTouristRoute(Guid routeId)
     {
-        return Ok(_routeRepository.GetRouteByRouteId(routeId));
+        var routeFromRepo = _routeRepository.GetRouteByRouteId(routeId);
+
+        if (routeFromRepo == null) return NotFound($"Current route not found, route id is {routeId}");
+
+        return Ok(routeFromRepo);
     }
 }

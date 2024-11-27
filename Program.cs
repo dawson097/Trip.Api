@@ -1,13 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Trip.Api.Database;
-using Trip.Api.Models;
+using Trip.Api.Service;
 using Trip.Api.Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.ReturnHttpNotAcceptable = true)
+    .AddXmlDataContractSerializerFormatters();
 
-builder.Services.AddTransient<ITouristRouteRepository, ITouristRouteRepository>();
+builder.Services.AddTransient<ITouristRouteRepository, TouristRouteRepository>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
